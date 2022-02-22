@@ -10,6 +10,9 @@ function formatAndSendTweet(event) {
     // Handle both individual items + bundle sales
     const assetName = _.get(event, ['asset', 'name'], _.get(event, ['asset_bundle', 'name']));
     const openseaLink = _.get(event, ['asset', 'permalink'], _.get(event, ['asset_bundle', 'permalink']));
+    
+    const buyer = _.get(event, ['winner_account', 'user', 'username'], 'Anonymous') || 'Anonymous';
+    const seller = _.get(event, ['seller', 'user', 'username'], 'Anonymous') || 'Anonymous';  
 
     const totalPrice = _.get(event, 'total_price');
 
@@ -21,7 +24,7 @@ function formatAndSendTweet(event) {
     const formattedEthPrice = formattedUnits * tokenEthPrice;
     const formattedUsdPrice = formattedUnits * tokenUsdPrice;
 
-    const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) #NFT ${openseaLink}`;
+    const tweetText = `${assetName} was purchased for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) by $[buyer] from $[seller] #TRV #TheRedVillage #BLOODISCOMING ${openseaLink}`;
 
     console.log(tweetText);
 
